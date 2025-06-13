@@ -1,25 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   MantineReactTable,
   useMantineReactTable,
   type MRT_ColumnDef,
 } from "mantine-react-table";
-import { Skeleton } from "@mantine/core";
+import { Skeleton, Loader, Center } from "@mantine/core";
 
 import { getDaysSinceRegistered } from "@/utils";
-import { fetchMockData } from "../data/mockDataPromise";
-
-type User = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  city: string;
-  registeredDate: string;
-};
+import { useUsersTable } from "@/hooks/useUsersTable";
+import type { User } from "@/types";
 
 const Table = () => {
-  const [data, setData] = useState<User[] | null>(null);
+  const { data, isLoading, tableContainerRef, fetchMoreUsers } =
+    useUsersTable();
   const columns = useMemo<MRT_ColumnDef<User>[]>(
     () => [
       { accessorKey: "id", header: "ID" },
@@ -42,29 +35,38 @@ const Table = () => {
     ],
     []
   );
-
-  useEffect(() => {
-    fetchMockData().then((result) => setData(result.data));
-  }, []);
-
   const table = useMantineReactTable({
     columns,
     data: data || [],
+    enableRowVirtualization: true,
+    mantineTableContainerProps: {
+      ref: tableContainerRef,
+      style: { maxHeight: 600 },
+      onScroll: fetchMoreUsers,
+    },
     enableColumnOrdering: true,
     enableColumnActions: false,
     enableSorting: true,
-    enableRowVirtualization: true,
     enableTopToolbar: false,
     enablePagination: false,
     enableBottomToolbar: false,
-    mantineTableContainerProps: { style: { maxHeight: 600 } },
   });
 
   if (!data) {
     return <Skeleton height={600} />;
   }
 
-  return <MantineReactTable table={table} />;
+  return (
+    <>
+      <MantineReactTable table={table} />
+
+      {isLoading && data.length > 0 && (
+        <Center mt="md">
+          <Loader color="white" />
+        </Center>
+      )}
+    </>
+  );
 };
 
 export default Table;
