@@ -1,9 +1,13 @@
-import { Container } from "@mantine/core";
+import { Container, Skeleton } from "@mantine/core";
 
 import Table from "@/components/Table";
 import BlurText from "@/components/BlurText";
+import { useUsersTable } from "@/hooks/useUsersTable";
 
 export default function Home() {
+  const { data, isLoading, tableContainerRef, fetchMoreUsers } =
+    useUsersTable();
+
   return (
     <main>
       <Container fluid style={{ paddingTop: 50, paddingBottom: 100 }}>
@@ -14,7 +18,16 @@ export default function Home() {
           direction="top"
         />
 
-        <Table />
+        {isLoading && data.length === 0 ? (
+          <Skeleton height={600} mt="md" />
+        ) : (
+          <Table
+            data={data}
+            isLoading={isLoading}
+            tableContainerRef={tableContainerRef}
+            fetchMoreUsers={fetchMoreUsers}
+          />
+        )}
       </Container>
     </main>
   );

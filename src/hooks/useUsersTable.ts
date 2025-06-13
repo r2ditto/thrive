@@ -15,9 +15,9 @@ export const useUsersTable = () => {
     setIsLoading(true);
     const result = await fetchMockDataPage(pageToFetch, PAGE_SIZE);
     setData((prev) => [...prev, ...result.data]);
-    setIsLoading(false);
     setHasMore(result.data.length === PAGE_SIZE);
     setPage(pageToFetch);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export const useUsersTable = () => {
         fetchPage(page + 1);
       }
     },
-    [fetchPage, isLoading, hasMore, page]
+    [isLoading, hasMore, page, fetchPage]
   );
 
   return { data, isLoading, tableContainerRef, fetchMoreUsers };

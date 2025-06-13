@@ -7,12 +7,21 @@ import {
 import { Loader, Center } from "@mantine/core";
 
 import { getDaysSinceRegistered } from "@/utils";
-import { useUsersTable } from "@/hooks/useUsersTable";
 import type { User } from "@/types";
 
-const Table = () => {
-  const { data, isLoading, tableContainerRef, fetchMoreUsers } =
-    useUsersTable();
+type TableProps = {
+  data: User[];
+  isLoading: boolean;
+  tableContainerRef: React.RefObject<HTMLDivElement | null>;
+  fetchMoreUsers: (event: React.UIEvent<HTMLDivElement>) => void;
+};
+
+const Table = ({
+  data,
+  isLoading,
+  tableContainerRef,
+  fetchMoreUsers,
+}: TableProps) => {
   const columns = useMemo<MRT_ColumnDef<User>[]>(
     () => [
       { accessorKey: "id", header: "ID" },
