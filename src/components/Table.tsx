@@ -35,7 +35,8 @@ const Table = () => {
       { accessorKey: "registeredDate", header: "Registered Date" },
       {
         header: "DSR",
-        accessorFn: (row) => getDaysSinceRegistered(row.registeredDate),
+        accessorFn: (row) =>
+          `${getDaysSinceRegistered(row.registeredDate)} days`,
         id: "dsr",
       },
     ],
@@ -60,7 +61,7 @@ const Table = () => {
   });
 
   if (!data) {
-    return <Skeleton height={200} />;
+    return <Skeleton height={600} />;
   }
 
   return <MantineReactTable table={table} />;

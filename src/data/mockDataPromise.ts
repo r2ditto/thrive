@@ -4,5 +4,5 @@ export const fetchMockData = () =>
   new Promise<{ data: typeof mockData.data }>((resolve) => {
     setTimeout(() => {
       resolve({ data: mockData.data });
-    }, 2000);
+    }, 1000);
   });

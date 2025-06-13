@@ -1,22 +1,12 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Container } from "@mantine/core";
 import Table from "../components/Table";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function Home() {
   return (
-    <div className={`${geistSans.className} ${geistMono.className}`}>
-      <main>
+    <main>
+      <Container fluid style={{ paddingTop: 100, paddingBottom: 100 }}>
         <Table />
-      </main>
-    </div>
+      </Container>
+    </main>
   );
 }
