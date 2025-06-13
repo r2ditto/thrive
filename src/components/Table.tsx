@@ -4,7 +4,7 @@ import {
   useMantineReactTable,
   type MRT_ColumnDef,
 } from "mantine-react-table";
-import { Skeleton, Loader, Center } from "@mantine/core";
+import { Loader, Center } from "@mantine/core";
 
 import { getDaysSinceRegistered } from "@/utils";
 import { useUsersTable } from "@/hooks/useUsersTable";
@@ -37,12 +37,15 @@ const Table = () => {
   );
   const table = useMantineReactTable({
     columns,
-    data: data || [],
+    data: data,
     enableRowVirtualization: true,
     mantineTableContainerProps: {
       ref: tableContainerRef,
-      style: { maxHeight: 600 },
+      style: { minHeight: 600, maxHeight: 600 },
       onScroll: fetchMoreUsers,
+    },
+    state: {
+      isLoading,
     },
     enableColumnOrdering: true,
     enableColumnActions: false,
@@ -51,10 +54,6 @@ const Table = () => {
     enablePagination: false,
     enableBottomToolbar: false,
   });
-
-  if (!data) {
-    return <Skeleton height={600} />;
-  }
 
   return (
     <>

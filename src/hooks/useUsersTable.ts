@@ -5,16 +5,16 @@ import type { User } from "@/types";
 const PAGE_SIZE = 50;
 
 export const useUsersTable = () => {
-  const [data, setData] = useState<User[] | null>(null);
+  const [data, setData] = useState<User[]>([]);
   const [page, setPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const fetchPage = useCallback(async (pageToFetch: number) => {
     setIsLoading(true);
     const result = await fetchMockDataPage(pageToFetch, PAGE_SIZE);
-    setData((prev) => (prev ? [...prev, ...result.data] : [...result.data]));
+    setData((prev) => [...prev, ...result.data]);
     setIsLoading(false);
     setHasMore(result.data.length === PAGE_SIZE);
     setPage(pageToFetch);
