@@ -21,9 +21,6 @@ export const useUsersTable = () => {
   }, []);
 
   useEffect(() => {
-    setData(null);
-    setPage(0);
-    setHasMore(true);
     fetchPage(0);
   }, [fetchPage]);
 
